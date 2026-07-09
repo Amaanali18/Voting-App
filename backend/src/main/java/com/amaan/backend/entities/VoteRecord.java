@@ -12,6 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"roomId", "userId"}))
+@Builder
 public class VoteRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
