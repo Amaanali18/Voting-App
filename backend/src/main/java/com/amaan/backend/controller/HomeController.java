@@ -1,9 +1,13 @@
 package com.amaan.backend.controller;
 
+import com.amaan.backend.helpers.dtos.CastVoteDTO;
 import com.amaan.backend.helpers.dtos.voteRoomCreateDTO;
 import com.amaan.backend.services.voteService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/voting/")
@@ -25,5 +29,10 @@ public class HomeController {
     @PostMapping("/create")
     public ResponseEntity<?> createVotingRoom(@RequestBody voteRoomCreateDTO voteRoom) {
         return voteService.createVotingRoom(voteRoom);
+    }
+    @PostMapping("/{name}/vote")
+    public ResponseEntity<?> castVote(@PathVariable String name, @RequestBody CastVoteDTO dto) {
+        UUID userId = (UUID) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return voteService.castVote(name, dto.getOptionIndex(), userId);
     }
 }
