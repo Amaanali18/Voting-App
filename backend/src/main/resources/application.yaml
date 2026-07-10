@@ -1,6 +1,8 @@
 spring:
   application:
     name: backend
+  profiles:
+    active: dev
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
@@ -11,7 +13,6 @@ spring:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
-
 server:
   port: 8080
 app:

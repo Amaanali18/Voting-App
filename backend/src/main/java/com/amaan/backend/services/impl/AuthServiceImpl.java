@@ -1,5 +1,6 @@
 package com.amaan.backend.services.impl;
 
+import com.amaan.backend.config.AuditLogger;
 import com.amaan.backend.config.JwtUtil;
 import com.amaan.backend.entities.User;
 import com.amaan.backend.helpers.dtos.LoginDTO;
@@ -8,12 +9,14 @@ import com.amaan.backend.repo.UserRepo;
 import com.amaan.backend.services.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -34,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
             return ResponseEntity.badRequest().body("name, email, and password are required");
         }
         if (userRepo.existsByEmail(dto.getEmail())) {
-            return ResponseEntity.conflict().body("Email already registered");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("email already exists");
         }
 
         User user = new User();
@@ -47,6 +50,8 @@ public class AuthServiceImpl implements AuthService {
         String token = jwtUtil.generateToken(user.getId(), user.getEmail());
         setTokenCookie(response, token);
 
+        AuditLogger.log("REGISTER", "email=" + dto.getEmail());
+
         return ResponseEntity.ok(Map.of("id", user.getId(), "name", user.getName(), "email", user.getEmail()));
     }
 
@@ -58,22 +63,26 @@ public class AuthServiceImpl implements AuthService {
 
         User user = userRepo.findByEmail(dto.getEmail()).orElse(null);
         if (user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+            AuditLogger.log("LOGIN_FAILED", "email=" + dto.getEmail());
             return ResponseEntity.status(401).body("Invalid email or password");
         }
 
         String token = jwtUtil.generateToken(user.getId(), user.getEmail());
         setTokenCookie(response, token);
 
+        AuditLogger.log("LOGIN", "email=" + dto.getEmail());
+
         return ResponseEntity.ok(Map.of("id", user.getId(), "name", user.getName(), "email", user.getEmail()));
     }
 
     @Override
-    public ResponseEntity<?> logout(HttpServletResponse response) {
+    public ResponseEntity<?> logout(UUID userId, HttpServletResponse response) {
         Cookie cookie = new Cookie("token", null);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
+        AuditLogger.log("LOGOUT", "userId=" + userId);
         return ResponseEntity.ok("Logged out");
     }
 

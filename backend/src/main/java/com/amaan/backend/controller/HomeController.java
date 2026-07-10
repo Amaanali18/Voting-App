@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -32,7 +33,7 @@ public class HomeController {
     }
     @PostMapping("/{name}/vote")
     public ResponseEntity<?> castVote(@PathVariable String name, @RequestBody CastVoteDTO dto) {
-        UUID userId = (UUID) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UUID userId = (UUID) Objects.requireNonNull(SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
         return voteService.castVote(name, dto.getOptionIndex(), userId);
     }
 }

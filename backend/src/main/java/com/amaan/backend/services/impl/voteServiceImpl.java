@@ -1,5 +1,6 @@
 package com.amaan.backend.services.impl;
 
+import com.amaan.backend.config.AuditLogger;
 import com.amaan.backend.entities.VoteRecord;
 import com.amaan.backend.entities.VoteRoom;
 import com.amaan.backend.helpers.dtos.voteRoomCreateDTO;
@@ -52,6 +53,7 @@ public class voteServiceImpl implements voteService {
         room.setCreatedAt(new Date());
 
         VoteRoom saved = repository.save(room);
+        AuditLogger.log("CREATE_ROOM", "name=" + saved.getName());
         return ResponseEntity.ok(saved);
     }
 
@@ -62,7 +64,7 @@ public class voteServiceImpl implements voteService {
             return ResponseEntity.notFound().build();
         }
 
-        VoteRoom room = voteRooms.get(0);
+        VoteRoom room = voteRooms.getFirst();
 
         long ageMs = System.currentTimeMillis() - room.getCreatedAt().getTime();
         if (ageMs > 24 * 60 * 60 * 1000) {
@@ -85,6 +87,7 @@ public class voteServiceImpl implements voteService {
         VoteRecord record = new VoteRecord(null, room.getId(), userId, optionIndex, new Date());
         voteRecordRepo.save(record);
 
+        AuditLogger.log("VOTE", String.format("room=%s optionIndex=%d userId=%s", roomName, optionIndex, userId));
         return ResponseEntity.ok("Vote recorded");
     }
 }

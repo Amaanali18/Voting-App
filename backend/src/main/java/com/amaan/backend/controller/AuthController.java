@@ -5,7 +5,11 @@ import com.amaan.backend.helpers.dtos.RegisterDTO;
 import com.amaan.backend.services.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -24,6 +28,7 @@ public class AuthController {
     }
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletResponse response) {
-        return authService.logout(response);
+        UUID userId = (UUID) Objects.requireNonNull(SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
+        return authService.logout(userId, response);
     }
 }
