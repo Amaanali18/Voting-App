@@ -31,7 +31,7 @@ const Poll = () => {
         } catch {
             toast.error('Logout failed')
         }
-        navigate('/login')
+        navigate('/')
     }
 
     return (

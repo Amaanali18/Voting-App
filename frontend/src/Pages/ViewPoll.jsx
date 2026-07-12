@@ -57,7 +57,7 @@ const ViewPoll = () => {
         } catch {
             toast.error('Logout failed')
         }
-        navigate('/login')
+        navigate('/')
     }
 
     if (!poll) return <div className="min-h-screen flex items-center justify-center">Loading...</div>
