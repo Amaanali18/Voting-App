@@ -13,12 +13,12 @@ const Poll = () => {
         if (!name) return
 
         try {
-            const { data } = await api.post('/api/voting/existsByName', { name })
-            if (!data.exists) {
+            const { data } = await api.post(`/api/voting/existsByName?name=${encodeURIComponent(name)}`)
+            if (!data) {
                 toast.error("Poll doesn't exist")
                 return
             }
-            navigate(`/vote/${encodeURIComponent(name)}`)
+            navigate(`/${encodeURIComponent(name)}`)
         } catch (err) {
             toast.error(err.response?.data?.message || 'Request failed')
         }

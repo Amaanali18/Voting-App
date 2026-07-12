@@ -14,7 +14,17 @@ const Vote = () => {
     useEffect(() => {
         if (!roomName) return
         api.get(`/api/voting/${encodeURIComponent(roomName)}`)
-            .then(({ data }) => setPoll(data))
+            .then(({ data }) => {
+                if (Array.isArray(data) && data.length > 0) {
+                    const room = data[0]
+                    // Transform options and counter to objects with text and votes
+                    const transformedOptions = room.options.map((text, idx) => ({
+                        text,
+                        votes: room.counter?.[idx] || 0
+                    }))
+                    setPoll({ ...room, options: transformedOptions })
+                }
+            })
             .catch((err) => toast.error(err.response?.data?.message || 'Failed to fetch poll'))
     }, [roomName])
 
