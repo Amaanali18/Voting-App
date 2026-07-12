@@ -4,6 +4,7 @@ import Home from "../Pages/Home.jsx"
 import Login from "../Pages/Login.jsx"
 import Register from "../Pages/Register.jsx"
 import Poll from "../Pages/Poll.jsx"
+import Create from "../Pages/Create.jsx"
 import Vote from "../Pages/Vote.jsx"
 import ProtectedRoute from "../Pages/ProtectedRoute.jsx"
 import { About, NotFound } from "../Components/store.js"
@@ -24,6 +25,13 @@ const router = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [
             { index: true, element: <Poll /> },
+        ],
+    },
+    {
+        path: '/create',
+        element: <ProtectedRoute />,
+        children: [
+            { index: true, element: <Create /> },
         ],
     },
     {
