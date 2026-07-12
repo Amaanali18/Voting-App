@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import api from '../Routes/AxiosHelper.js'
 
-const LIMITS = { name: 20, question: 100 }
+const LIMITS = { name: 40, question: 200 }
 
 const Create = () => {
     const [name, setName] = useState('')

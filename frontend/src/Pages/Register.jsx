@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import api from '../Routes/AxiosHelper.js'
 
-const LIMITS = { username: 20, email: 50, password: 20 }
+const LIMITS = { username: 40, email: 40 , password: 128 }
 
 const Register = () => {
     const [username, setUsername] = useState('')
