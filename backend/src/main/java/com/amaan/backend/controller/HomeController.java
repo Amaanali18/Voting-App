@@ -24,7 +24,7 @@ public class HomeController {
         return voteService.getVoteRoom(name);
     }
     @GetMapping("/existsByName")
-    public boolean getVotingRoomByName(@RequestBody String name){
+    public boolean getVotingRoomByName(@RequestParam String name){
         return voteService.getExistingRoomByName(name);
     }
     @PostMapping("/create")

@@ -16,6 +16,7 @@ spring:
 server:
   port: 8080
 app:
+  frontend_url: ${FRONTEND_URL}
   jwt:
     secret: ${JWT_SECRET}
     expiration-ms: 86400000

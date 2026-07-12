@@ -49,7 +49,7 @@ public class voteServiceImpl implements voteService {
         room.setName(voteRoom.getName());
         room.setQuestion(voteRoom.getQuestion());
         room.setOptions(voteRoom.getOptions());
-        room.setCounter(voteRoom.getOptions().stream().map(_ -> 0L).toList());
+        room.setCounter(voteRoom.getOptions().stream().map(o -> 0L).toList());
         room.setCreatedAt(new Date());
 
         VoteRoom saved = repository.save(room);
