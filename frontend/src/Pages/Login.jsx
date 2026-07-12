@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import api from '../Routes/AxiosHelper.js'
 
+const LIMITS = { username: 20, password: 20 }
+
 const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -29,7 +31,10 @@ const Login = () => {
                     <input
                         type="text"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => {
+                            if (e.target.value.length > LIMITS.username) { toast.error(`Max ${LIMITS.username} characters`); return }
+                            setUsername(e.target.value)
+                        }}
                         className="w-full px-3 py-2 border rounded-lg"
                         required
                     />
@@ -40,7 +45,10 @@ const Login = () => {
                     <input
                         type="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                            if (e.target.value.length > LIMITS.password) { toast.error(`Max ${LIMITS.password} characters`); return }
+                            setPassword(e.target.value)
+                        }}
                         className="w-full px-3 py-2 border rounded-lg"
                         required
                     />

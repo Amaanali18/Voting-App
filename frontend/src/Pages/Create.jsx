@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import api from '../Routes/AxiosHelper.js'
 
+const LIMITS = { name: 20, question: 100 }
+
 const Create = () => {
     const [name, setName] = useState('')
     const [question, setQuestion] = useState('')
@@ -59,7 +61,10 @@ const Create = () => {
                     <input
                         type="text"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => {
+                            if (e.target.value.length > LIMITS.name) { toast.error(`Max ${LIMITS.name} characters`); return }
+                            setName(e.target.value)
+                        }}
                         className="w-full px-3 py-2 border rounded-lg"
                         required
                     />
@@ -70,7 +75,10 @@ const Create = () => {
                     <input
                         type="text"
                         value={question}
-                        onChange={(e) => setQuestion(e.target.value)}
+                        onChange={(e) => {
+                            if (e.target.value.length > LIMITS.question) { toast.error(`Max ${LIMITS.question} characters`); return }
+                            setQuestion(e.target.value)
+                        }}
                         className="w-full px-3 py-2 border rounded-lg"
                         required
                     />
