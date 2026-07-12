@@ -23,7 +23,7 @@ public class HomeController {
     public ResponseEntity<?> getVotingRoom(@PathVariable String name) {
         return voteService.getVoteRoom(name);
     }
-    @GetMapping("/existsByName")
+    @PostMapping("/existsByName")
     public boolean getVotingRoomByName(@RequestParam String name){
         return voteService.getExistingRoomByName(name);
     }
