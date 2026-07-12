@@ -2,10 +2,10 @@ spring:
   application:
     name: backend
   profiles:
-    active: dev
+    active: ${SPRING_PROFILES_ACTIVE:dev}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
   datasource:
@@ -19,4 +19,9 @@ app:
   frontend_url: ${FRONTEND_URL}
   jwt:
     secret: ${JWT_SECRET}
-    expiration-ms: 86400000
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+logging:
+  level:
+    root: INFO
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
