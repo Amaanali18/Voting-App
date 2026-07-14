@@ -48,9 +48,12 @@ A full-stack real-time polling application with secure cookie-based authenticati
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Java 21+
+- Java 21
 - Node.js 20+
+- React 19
+- Spring Boot 3.5+
 - PostgreSQL 16+
+- Git
 
 ### Backend Setup
 ```bash
@@ -74,7 +77,6 @@ pnpm run dev
 ### Access
 - Frontend: http://localhost:5173
 - Backend API: http://localhost:8080
-- H2 Console (dev): http://localhost:8080/h2-console
 
 ---
 
