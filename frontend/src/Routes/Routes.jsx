@@ -6,7 +6,6 @@ import Register from "../Pages/Register.jsx"
 import Poll from "../Pages/Poll.jsx"
 import Create from "../Pages/Create.jsx"
 import Vote from "../Pages/Vote.jsx"
-import ViewPoll from "../Pages/ViewPoll.jsx"
 import ProtectedRoute from "../Pages/ProtectedRoute.jsx"
 import { About, NotFound } from "../Components/store.js"
 
@@ -46,7 +45,7 @@ const router = createBrowserRouter([
         path: '/:name',
         element: <ProtectedRoute />,
         children: [
-            { index: true, element: <ViewPoll /> },
+            { index: true, element: <Vote /> },
         ],
     },
     { path: '*', element: <NotFound /> },
